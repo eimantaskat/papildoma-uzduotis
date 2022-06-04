@@ -3,6 +3,9 @@
 #include <fstream>
 #include <set>
 #include <algorithm>
+#include <sstream>
+#include <vector>
+#include <iomanip>
 
 char to_lower(char const c) {
     std::string lt_upper = "ĄČĘĖĮŠŲŪŽ";
@@ -25,37 +28,46 @@ std::string remove_punctuation(std::string word) {
 
 
 int main() {
-    // std::multiset< std::pair<std::string, int>, std::less<std::string> > words;
-    std::multiset< std::string, std::less<std::string> > words;
-    std::fstream f ("text.txt");
-    std::string word;
-    int ln = 0;
-    while(!f.eof()) {
-        f >> word;
-        // words.insert(remove_punctuation(word));
-        word = remove_punctuation(word);
-        if (word.size() > 0)
-            words.insert(word);
-    }
+    std::multiset< std::pair<std::string, int>> words;
+
+    std::fstream f ("text1.txt");
+    std::stringstream buffer;
+    buffer << f.rdbuf();
     f.close();
 
-    words.erase("");
-    words.erase("\n");
-    std::ofstream of ("result.txt");
-    std::multiset<std::string>::iterator iter;
-    std::string prev = *(words.begin());
-    int count = -1;
-    for (iter = words.begin();iter!=words.end();++iter) {
-        if (prev == *iter)
-            count++;
-        else {
-            of << prev << " " << count + 1 << "\n";
-            prev = *iter;
-            count = 0;
+    std::string word, ln;
+    int line_number = 0;
+    while(!buffer.eof()) {
+        line_number++;
+        std::getline(buffer, ln);
+        std::stringstream line;
+        line << ln;
+        while (!line.eof()) {
+            line >> word;
+            word = remove_punctuation(word);
+            if (word.size() > 0) 
+                words.insert({word, line_number});
+            word = "";
         }
     }
-    // for (iter = words.begin();iter!=words.end();++iter) {
-    //     of << *iter << "\n";
-    // }
+
+    std::ofstream of ("result.txt");
+    std::multiset<std::pair<std::string, int>>::iterator iter;
+    std::string prev = (*((words.begin()))).first;
+    std::vector<int> lines;
+    for (iter = words.begin();iter!=words.end();++iter) {
+        if (prev == (*iter).first)
+            lines.push_back((*iter).second);
+        else {
+            of << std::left << std::setw(44) << prev << "\t" << std::setw(5) << lines.size();
+            for (int l:lines)
+                of << l << " ";
+            of << "\n";
+
+            prev = (*iter).first;
+            lines.clear();
+            lines.push_back((*iter).second);
+        }
+    }
     of.close();
 }
