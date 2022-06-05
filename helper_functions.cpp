@@ -1,0 +1,50 @@
+#include "functions.hpp"
+
+char to_lower(const char &c) {
+    string lt_upper = "ĄČĘĖĮŠŲŪŽ";
+    string lt_lower = "ąčęėįšųūž";
+
+    for (int i = 0; i < lt_upper.size(); i++) {
+        if (c == lt_upper[i])
+            return lt_lower[i];
+    }
+
+    return std::tolower(c);
+}
+
+int count_ltu_letters(const string &word) {
+    int count = 0;
+    for (char letter:word) {
+        if ((int)letter > 255 || (int)letter < 0)
+            count++;
+    }
+    return count/2;
+}
+
+void process_word(string &word) {
+    string symbols = "(),.[]-„“\"\':;%!?/<>|\\{}+=-*&^%$#@~`”•€–0123456789°½¢£";
+    
+    for (char c: symbols) {
+        if (*(word.begin()) == c)
+            word.erase(word.begin());
+
+        if (*(word.end() - 1) == c)
+            word.erase(word.end() - 1);
+    }
+
+    std::transform(word.begin(), word.end(), word.begin(), to_lower);
+}
+
+bool is_url(const string &str) {
+    std::regex reg(".*www\\..*\\..*");
+    return std::regex_match(str, reg);
+}
+
+bool is_word(const string &str) {
+    int alpha = 0;
+    for (char c:str) {
+        if (isalpha(c))
+            alpha++;
+    }
+    return (alpha > str.size()/1.5);
+}
