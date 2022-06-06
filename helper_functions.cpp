@@ -45,8 +45,8 @@ void process_word(string &word) {
 }
 
 bool is_url(const string &str) {
-    std::regex reg(".*www\\..*\\..*");
-    return std::regex_match(str, reg);
+    std::regex reg(".*\\..*\\..*");
+    return std::regex_match(str, reg) && ((int)str.back() <= 255 && (int)str.back() >= 0);
 }
 
 bool is_word(const string &str) {

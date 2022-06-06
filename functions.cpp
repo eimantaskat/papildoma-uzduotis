@@ -40,8 +40,8 @@ void write_output(const multiset< pair<string, int> > &words, const string &file
     std::vector<int> lines;
     string prev = (*((words.begin()))).first;
 
-    url_output << "URL's: ";
-    w_output << left << setw(39) << "Žodis" << left << setw(10) << "Kartojasi" << " Eilutės, kuriose yra žodis\n";
+    url_output << "URL's:\n";
+    w_output << left << setw(43) << "Žodis" << left << setw(10) << "Kartojasi\n"; // << " Eilutės, kuriose yra žodis\n";
     for (auto iter = words.begin(); iter != words.end(); iter++) {
         if (prev == (*iter).first)
             lines.push_back((*iter).second);
@@ -49,12 +49,12 @@ void write_output(const multiset< pair<string, int> > &words, const string &file
             if (!is_url(prev)) {
                 if (lines.size() > 1) {
                     w_output << left << setw(44 + count_ltu_letters(prev)) << prev << right << setw(3) << lines.size() << "  ";
-                    for (int l:lines)
-                        w_output << l << " ";
+                    // for (int l:lines)
+                    //     w_output << l << " ";
                     w_output << "\n";
                 }
             } else {
-                url_output << prev << " ";
+                url_output << "\t" << prev << "\n";
             }
 
             prev = (*iter).first;
@@ -62,7 +62,7 @@ void write_output(const multiset< pair<string, int> > &words, const string &file
             lines.push_back((*iter).second);
         }
     }
-    url_output << "\n\n";
+    url_output << "\n";
 
     std::ofstream file (file_name);
     if (url_output.str().length() > 9)
