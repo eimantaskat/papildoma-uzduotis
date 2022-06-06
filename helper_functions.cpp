@@ -21,6 +21,15 @@ int count_ltu_letters(const string &word) {
     return count/2;
 }
 
+bool is_letter(const char &c) {
+    string letters = "aąbcčdeęėfghiįyjklmnoprsštuųūvzž";
+    for (char l:letters) {
+        if (c == l)
+            return true;
+    }
+    return false;
+}
+
 void process_word(string &word) {
     string symbols = "(),.[]-„“\"\':;%!?/<>|\\{}+=-*&^%$#@~`”•€–0123456789°½¢£";
     
@@ -43,7 +52,7 @@ bool is_url(const string &str) {
 bool is_word(const string &str) {
     int alpha = 0;
     for (char c:str) {
-        if (isalpha(c))
+        if (is_letter(c))
             alpha++;
     }
     return (alpha > str.size()/1.5);
