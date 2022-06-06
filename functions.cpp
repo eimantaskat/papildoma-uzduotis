@@ -85,6 +85,11 @@ void generate_md_table(const multiset< pair<string, int> >& words, const string 
         table << i << "|";
     table << "\n";
 
+    table << "|";
+    for (int i = 0; i <= ln; i++)
+        table << "---|";
+    table << "\n";
+
     string prev = (*((words.begin()))).first;
 
     std::vector<int> lines;
@@ -101,7 +106,7 @@ void generate_md_table(const multiset< pair<string, int> >& words, const string 
                             table << "X|";
                             lines.pop_back();
                         } else {
-                            table << "|";
+                            table << "  |";
                         }
                     }
                     table << "\n";
