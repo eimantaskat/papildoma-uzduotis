@@ -11,3 +11,4 @@ bool is_letter(const char&);
 
 multiset< pair<string, int> > read_text(const string &);
 void write_output(const multiset< pair<string, int> >&, const string&);
+void generate_md_table(const multiset< pair<string, int> >&, const string&);

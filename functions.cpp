@@ -70,3 +70,53 @@ void write_output(const multiset< pair<string, int> > &words, const string &file
     file << w_output.rdbuf();
     file.close();
 }
+
+void generate_md_table(const multiset< pair<string, int> >& words, const string &file_name) {
+    stringstream table;
+    int ln = 0;
+
+    for (auto word:words) {
+        if (word.second > ln)
+            ln = word.second;
+    }
+
+    table << "|Žodis\\eitutė|";
+    for (int i = 1; i <= ln; i++)
+        table << i << "|";
+    table << "\n";
+
+    string prev = (*((words.begin()))).first;
+
+    std::vector<int> lines;
+    for (auto iter = words.begin(); iter != words.end(); iter++) {
+        if (prev == (*iter).first)
+            lines.push_back((*iter).second);
+        else {
+            if (!is_url(prev)) {
+                if (lines.size() > 1) {
+                    std::sort(lines.rbegin(), lines.rend());
+                    table << "|" << prev << "|";
+                    for (int i = 1; i <= ln; i++) {
+                        if (i == lines.back()) {
+                            table << "X|";
+                            lines.pop_back();
+                        } else {
+                            table << "|";
+                        }
+                    }
+                    table << "\n";
+                }
+            } else {
+                table << prev << " ";
+            }
+
+            prev = (*iter).first;
+            lines.clear();
+            lines.push_back((*iter).second);
+        }
+    }
+    
+    std::ofstream file (file_name);
+    file << table.rdbuf();
+    file.close();
+}
