@@ -111,8 +111,6 @@ void generate_md_table(const multiset< pair<string, int> >& words, const string 
                     }
                     table << "\n";
                 }
-            } else {
-                table << prev << " ";
             }
 
             prev = (*iter).first;
