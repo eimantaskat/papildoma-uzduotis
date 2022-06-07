@@ -4,6 +4,11 @@ multiset< pair<string, int> > read_text(const string &file_name) {
     stringstream buffer;
 
     std::fstream file (file_name);
+    if (!file) {
+        std::cout << "Failas neegzistuoja\n";
+        multiset< pair<string, int> > t;
+        return t;
+    }
     buffer << file.rdbuf();
     file.close();
 
@@ -65,10 +70,16 @@ void write_output(const multiset< pair<string, int> > &words, const string &file
     url_output << "\n";
 
     std::ofstream file (file_name);
+    if (!file) {
+        std::cout << "Nepavyko sukurti failo\n";
+        return;
+    }
+
     if (url_output.str().length() > 9)
         file << url_output.rdbuf();
     file << w_output.rdbuf();
     file.close();
+    std::cout << "Rezultatas isvestas i faila " << file_name << "\n";
 }
 
 void generate_md_table(const multiset< pair<string, int> >& words, const string &file_name) {
@@ -120,6 +131,13 @@ void generate_md_table(const multiset< pair<string, int> >& words, const string 
     }
     
     std::ofstream file (file_name);
+    if (!file) {
+        std::cout << "Nepavyko sukurti failo\n";
+        return;
+    }
+
     file << table.rdbuf();
     file.close();
+
+    std::cout << "Lentele sugeneruota i faila " << file_name << "\n";
 }

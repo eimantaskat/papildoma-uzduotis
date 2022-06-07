@@ -30,6 +30,11 @@ bool is_letter(const char &c) {
     return false;
 }
 
+bool check_select(const string &s) {
+    std::regex reg("[1-3]");
+    return std::regex_match(s, reg);
+}
+
 void process_word(string &word) {
     string symbols = "(),.[]-„“\"\':;%!?/<>|\\{}+=-*&^%$#@~`”•€–0123456789°½¢£";
     
