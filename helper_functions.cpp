@@ -38,12 +38,14 @@ bool check_select(const string &s) {
 void process_word(string &word) {
     string symbols = "(),.[]-„“\"\':;%!?/<>|\\{}+=-*&^%$#@~`”•€–0123456789°½¢£";
     
-    for (char c: symbols) {
-        if (*(word.begin()) == c)
-            word.erase(word.begin());
+    while (symbols.find(*(word.end()-1)) < symbols.size()){
+        for (char c: symbols) {
+            if (*(word.begin()) == c)
+                word.erase(word.begin());
 
-        if (*(word.end() - 1) == c)
-            word.erase(word.end() - 1);
+            if (*(word.end() - 1) == c)
+                word.erase(word.end() - 1);
+        }
     }
 
     std::transform(word.begin(), word.end(), word.begin(), to_lower);
