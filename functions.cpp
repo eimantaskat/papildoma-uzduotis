@@ -40,6 +40,8 @@ multiset< pair<string, int> > read_text(const string &file_name) {
 }
 
 void write_output(const multiset< pair<string, int> > &words, const string &file_name) {
+    // string t = "uv";
+
     stringstream w_output, url_output;
 
     std::vector<int> lines;
@@ -47,7 +49,12 @@ void write_output(const multiset< pair<string, int> > &words, const string &file
 
     url_output << "URL's:\n";
     w_output << left << setw(43) << "Žodis" << left << setw(10) << "Kartojasi\n"; // << " Eilutės, kuriose yra žodis\n";
+    int count = 0;
     for (auto iter = words.begin(); iter != words.end(); iter++) {
+        // if ((*iter).first.find(t) < (*iter).first.size())
+        //     count++;
+
+        
         if (prev == (*iter).first)
             lines.push_back((*iter).second);
         else {
@@ -80,6 +87,7 @@ void write_output(const multiset< pair<string, int> > &words, const string &file
     file << w_output.rdbuf();
     file.close();
     std::cout << "Rezultatas isvestas i faila " << file_name << "\n";
+    // std::cout << t << " kartojasi " << count << " kartus\n"; 
 }
 
 void generate_md_table(const multiset< pair<string, int> >& words, const string &file_name) {

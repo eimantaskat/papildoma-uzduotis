@@ -52,7 +52,7 @@ void process_word(string &word) {
 }
 
 bool is_url(const string &str) {
-    return std::regex_match(str, std::regex (".*http.*\\..*")) || std::regex_match(str, std::regex (".*www.*\\..*")) || std::regex_match(str, std::regex (".*lt\\..*\\..*"));
+    return std::regex_match(str, std::regex (".*.\\...*")) ;
 }
 
 bool is_word(const string &str) {
